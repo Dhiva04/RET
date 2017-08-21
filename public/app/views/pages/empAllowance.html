@@ -1,0 +1,148 @@
+<h2 class="page-title" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">Allowance</h2>
+<section class="widget">
+    <header>
+    </header>
+    <div class="body">
+        <div class="col-md-12">
+            <div class="btn-group pull-left">
+                <button type="button" class="btn btn-success"
+                        data-toggle="modal" data-target="#addForm" data-placement="top" data-original-title=".btn .btn-default">
+                    Apply
+                </button>
+            </div>
+            <div class="col-md-11">
+                <div class="btn-group pull-right">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchKeyword">
+                </div>
+            </div>
+        </div>
+        <div class="mt">
+            <table id="myTable" class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>S.NO</th>
+                    <th>Allowance Type</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>ApplyDate</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="allowance in allowance | filter: searchKeyword | limitTo: allowance.limit">
+                    <td>{{$index + 1}}</td>
+                    <td>{{allowance.allowanceType}}</td>
+                    <td>{{allowance.amount}}</td>
+                    <td>{{allowance.description}}</td>
+                    <td>{{allowance.applyDate}}</td>
+                    <td><span class='badge bg-{{allowance.status}} text-gray fw-semi-bold'>{{allowance.status}}</span></td>
+                    <td>{{allowance.reason}}</td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+</div>
+<div class="loader-wrap hiding hide">
+    <i class="fa fa-circle-o-notch fa-spin"></i>
+</div>
+<div class="modal fade bs-modal-md" id="deleteform" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <form class="form-horizontal" name="deleteForm" ng-submit="deleteEmployee(view);" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Delete Employee</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure want to Delete Employee {{view.firstName}} ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn blue">Yes</button>
+                </div>
+
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade bs-modal-md" id="addForm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" align="center">Apply Allowance</h4>
+            </div>
+            <div class="modal-body" >
+                <form class="form-horizontal" name="applyForm" ng-submit="applyAllowance(applyData, applyForm.$valid);" id="applyForm" novalidate>
+                    <div class="form-body">
+
+                        <div class="form-group">
+
+                            <label class="col-md-4 control-label">AllowanceType:</label>
+                            <div class="col-md-6">
+                                <select name="Allowance" ng-disabled="allowance.disabled" class="form-control" ng-model="applyData.allowanceType" required>
+                                    <option>Travel Allowance</option>
+                                    <option>Food Allowance</option>
+                                    <option>Other Allowance</option>
+                                </select>
+                                <p class="help-block" ng-show="(!applyForm.allowanceType.$pristine && applyForm.allowanceType.$error.required) || (applyForm.$submitted && applyForm.allowanceType.$error.required)"><font color="red">This field is required</font></p>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Amount:</label>
+                            <div class="col-md-6">
+
+                                <input ng-disabled="allowance.disabled" class="form-control" type="text" name="amount" placeholder="amount *" ng-model="applyData.amount" ng-pattern="/^[0-9]+$/" ng-minlength="4" ng-maxlength="10" required>
+                                <p class="help-block" ng-show="(!applyForm.amount.$pristine && applyForm.amount.$error.required) || (applyForm.$submitted && applyForm.amount.$error.required)"><font color="red">This field is required</font></p>
+                                <ul ng-show="(!applyForm.amount.$pristine && applyForm.amount.$error.pattern) || (!applyForm.amount.$pristine && applyForm.amount.$error.minlength) || (!applyForm.amount.$pristine && applyForm.amount.$error.maxlength)" class="help-block">
+                                    <li><font color="red">must contain numeric characters only</font> </li>
+                                    <li><font color="red">must contain at least 4 characters </font> </li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Description:</label>
+                            <div class="col-md-6">
+
+                                <input ng-disabled="allowance.disabled" class="form-control" type="text" name="description" placeholder="description *" ng-model="applyData.description" ng-pattern="/^[a-zA-Z0-9\s,'-]*$/" ng-minlength="10" ng-maxlength="200" required>
+                                <p class="help-block" ng-show="(!applyForm.description.$pristine && applyForm.description.$error.required) || (applyForm.$submitted && applyForm.description.$error.required)"><font color="red">This field is required</font></p>
+                                <ul ng-show="(!applyForm.description.$pristine && applyForm.description.$error.pattern) || (!applyForm.description.$pristine && applyForm.description.$error.minlength) || (!applyForm.description.$pristine && applyForm.description.$error.maxlength)" class="help-block">
+                                    <li><font color="red">Must be at least 10 characters but no more than 20</font> </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="model-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                            <button type="submit" ng-disabled="allowance.disabled"  class="btn blue" >Apply</button>
+                        </div>
+
+                </form>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- END ADD FORM-->
+    <!-- BEGIN FILTER FORM -->
+
+</div>

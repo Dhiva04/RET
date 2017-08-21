@@ -1,0 +1,136 @@
+<html ng-app="userApp" ng-cloak>
+
+
+<head>
+    <title>Round's Edge Technologies</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+
+    <link href="assets/css/application.min.css" type="text/css" rel="stylesheet">
+    <link href="assets/css/spinner.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/angular-toastr.css" />
+
+    <link rel="shortcut icon" href="assets/img/logo.png">
+
+</head>
+<body  ng-controller="mainCtrl as main" >
+
+
+    <div class="logo">
+        <a>
+            <img src="assets/img/logo.png" style="height: 70px;" alt=""/>
+        </a>
+    </div>
+
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="/">RET</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden active">
+                    <a href="#page-top"></a>
+                </li>
+                <li ng-class="{active: activeTab === 'home'}">
+                    <a href="/home"><i class="fa fa-home"></i> <span class="name">Home</span></a>
+
+                <li ng-class="{active: activeTab === 'login'}">
+                    <a ng-show="(!main.isLoggedIn)" href="/login"><i class="fa fa-sign-in"></i> <span class="name">login</span></a>
+                </li>
+				<li ng-class="{active: activeTab === 'administrator'}">
+                    <a ng-show="(main.isLoggedIn && !main.isEmployee)" href="/administrator"><i class="fa fa-user"></i> <span class="name">Administrator</span></a>
+                </li>
+				<li ng-class="{active: activeTab === 'employee'}">
+                    <a ng-show="(main.isLoggedIn && !main.isEmployee)" href="/employee"><i class="fa fa-users"></i> <span class="name">Employee</span></a>
+                </li>
+				<li ng-class="{active: activeTab === 'payroll'}">
+                    <a ng-show="(main.isLoggedIn && !main.isEmployee)" href="/payroll"><i class="fa fa-paper-plane"></i> <span class="name">Payroll</span></a>
+                </li>
+				<li ng-class="{active: activeTab === 'allowance'}">
+                    <a ng-show="(main.isLoggedIn && !main.isEmployee)" href="/allowance"><i class="fa fa-usd"></i> <span class="name">Allowance</span></a>
+                </li>
+                <li ng-class="{active: activeTab === 'allow'}">
+                    <a ng-show="(main.isLoggedIn && main.isEmployee)" href="/empAllowance"><i class="fa fa-usd"></i> <span class="name">Allowance</span></a>
+                </li>
+               
+
+
+                <li ng-class="{active: activeTab === 'logout'}">
+                    <a href="#"ng-show="(main.isLoggedIn )" ng-click="main.logout();"><i class="fa fa-sign-out"></i> <span class="name">logout</span></a>
+                </li>
+            </ul>
+        </nav>
+        </div>
+               <div  class="content container" ng-view >
+
+
+    </div>
+    </div>
+<!-- common libraries. required for every page-->
+
+    <script src="assets/lib/jquery/dist/jquery.min.js"></script>
+    <script src="assets/lib/jquery-pjax/jquery.pjax.js"></script>
+    <script src="assets/lib/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+<!--angularjs-->
+    <script src="assets/js/angular.js"></script>
+    <script src="assets/js/angular-route.js"></script>
+    <script src="assets/js/angular-animate.js"></script>
+    <script src="assets/js/angular-sanitize.js"></script>
+    <script src="assets/js/angular-toastr.tpls.js"></script>
+
+
+    <!-- Angular Config/Routes -->
+    <script src="app/app.js"></script>
+    <script src="app/routes.js"></script>
+
+    <script src="app/controller/mainController.js"></script>
+    <script src="app/controller/adminController.js"></script>
+    <script src="app/controller/employeeController.js"></script>
+    <script src="app/controller/payrollController.js"></script>
+    <script src="app/controller/empAllowController.js"></script>
+    <script src="app/controller/allowanceController.js"></script>
+    
+
+
+
+
+    <script src="app/service/authService.js"></script>
+    <script src="app/service/adminService.js"></script>
+    <script src="app/service/employeeService.js"></script>
+    <script src="app/service/payrollService.js"></script>
+    <script src="app/service/empAllowService.js"></script>
+    <script src="app/service/allowanceService.js"></script>
+  
+
+
+
+
+
+
+    <!-- common templates -->
+
+
+
+    <!-- page specific scripts -->
+    <!-- page libs -->
+
+</body>
+
+<!-- Mirrored from demo.flatlogic.com/3.7.0/dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Jun 2017 18:53:13 GMT -->
+</html>

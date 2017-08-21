@@ -1,0 +1,755 @@
+<h2 class="page-title" xmlns="http://www.w3.org/1999/html">Employee </h2>
+<section class="widget">
+	<header>
+	</header>
+	<div class="body">
+
+		<div class="col-md-12">
+			<div class="btn-group pull-left">
+				<button type="button" class="btn btn-success"
+						data-toggle="modal" data-target="#addForm" data-placement="top" data-original-title=".btn .btn-default">
+					Add
+				</button>
+			</div>
+
+			<div class="col-md-11">
+				<div class="btn-group pull-right">
+					<input type="text" class="form-control" placeholder="Search" ng-model="searchKeyword">
+				</div>
+			</div>
+
+
+		</div>
+		<div class="mt">
+			<table id="myTable" class="table table-striped table-hover">
+
+				<thead>
+				<tr >
+					<th>empID</th>
+					<th>Name</th>
+					<th>Designation</th>
+					<th>Mobile</th>
+					<th>Email</th>
+					<th>address</th>
+					<th>setting</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="employee in employee.employees | filter: searchKeyword | limitTo: employee.limit">
+					<td>{{employee.empId}}</td>
+					<td>{{employee.firstName}}</td>
+					<td>{{employee.designation}}</td>
+					<td>{{employee.mobile}}</td>
+					<td>{{employee.email}}</td>
+					<td>{{employee.address}}</td>
+					<td> <div class="row text-align-center">
+						<div class="col-md-12">
+							<button type="button"
+									class="btn btn-success" data-toggle="modal" ng-click="viewEmployee(employee._id);" data-target="#viewform">
+								view
+							</button>
+							<button type="button"
+									class="btn btn-warning" data-toggle="modal" ng-click="viewEmployee(employee._id);" data-target="#updateform">
+								Update
+							</button>
+							<button type="button"
+									class="btn btn-danger" data-toggle="modal" ng-click="viewEmployee(employee._id);" data-target="#deleteform">
+								Delete
+							</button>
+
+						</div>
+					</div>
+					</td>
+				</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+</div>
+<div class="loader-wrap hiding hide">
+	<i class="fa fa-circle-o-notch fa-spin"></i>
+</div>
+<div class="modal fade bs-modal-md" id="deleteform" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<form class="form-horizontal" name="deleteForm" ng-submit="deleteEmployee(view);" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title">Delete Employee</h4>
+				</div>
+				<div class="modal-body">
+					Are you sure want to Delete Employee {{view.firstName}} ?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn default" data-dismiss="modal">No</button>
+					<button type="submit" class="btn blue">Yes</button>
+				</div>
+
+			</div>
+		</form>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="modal fade bs-modal-lg" id="addForm" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title" align="center">Create a Employee</h4>
+			</div>
+			<div class="modal-body" >
+				<form class="form-horizontal" name="regForm" ng-submit="employee.regUser(regData, regForm.$valid, confirmed);" id="contactForm" novalidate>
+					<div class="form-body">
+						<div class="form-group">
+							<label class="col-md-2 control-label">FirstName:</label>
+							<!-- First Name Input -->
+							<div class="col-md-4">
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="firstName" placeholder="First Name *" ng-model="employee.regData.firstName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<!-- First Name Validation -->
+									<p class="help-block" ng-show="(!regForm.firstName.$pristine && regForm.firstName.$error.required) || (regForm.$submitted && regForm.firstName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.firstName.$pristine && regForm.firstName.$error.pattern) || (!regForm.firstName.$pristine && regForm.firstName.$error.minlength) || (!regForm.firstName.$pristine && regForm.firstName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Last Name:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="lastName" placeholder="LastName *" ng-model="employee.regData.lastName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!regForm.lastName.$pristine && regForm.lastName.$error.required) || (regForm.$submitted && regForm.lastName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.lastName.$pristine && regForm.lastName.$error.pattern) || (!regForm.lastName.$pristine && regForm.lastName.$error.minlength) || (!regForm.lastName.$pristine && regForm.lastName.$error.maxlength)" class="help-block">
+										<li>Must not contain any special characters</li>
+										<li>Must not contain any numbers</li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+
+									</ul>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Age:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="age" placeholder="Age *" ng-model="employee.regData.age" ng-pattern="/^[0-9]+$/" ng-minlength="2" ng-maxlength="3" required>
+									<p class="help-block" ng-show="(!regForm.age.$pristine && regForm.age.$error.required) || (regForm.$submitted && regForm.age.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.age.$pristine && regForm.age.$error.pattern) || (!regForm.age.$pristine && regForm.age.$error.minlength) || (!regForm.age.$pristine && regForm.age.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font> </li>
+									</ul>
+							</div>
+							<label class="col-md-2 control-label">Gender:</label>
+							<div class="col-md-4">
+
+									<select   name="gender" ng-disabled="employee.disabled" class="form-control" ng-model="employee.regData.gender" required>
+										<option>Male</option>
+										<option>Female</option>
+									</select>
+									<p class="help-block" ng-show="(!regForm.gender.$pristine && regForm.gender.$error.required) || (regForm.$submitted && regForm.gender.$error.required)"><font color="red">This field is required</font></p>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">empId:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="empId" placeholder="empId *" ng-model="employee.regData.empId" ng-pattern="/^(?=.*?[a-z])(?=.*?[\d]).{8,8}$/" ng-minlength="8" ng-maxlength="8" required>
+
+									<!-- First Name Validation -->
+									<p class="help-block" ng-show="(!regForm.empId.$pristine && regForm.empId.$error.required) || (regForm.$submitted && regForm.empId.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.empId.$pristine && regForm.empId.$error.pattern) || (!regForm.empId.$pristine && regForm.empId.$error.minlength) || (!regForm.empId.$pristine && regForm.empId.$error.maxlength)" class="help-block">
+										<li><font color="red">Must contain at least one upper case letter</font></li>
+										<li><font color="red">Must contain at least one lower case letter</font></li>
+										<li><font color="red">Must contain at least one number</font></li>
+										<li><font color="red">must contain 8 characters only </font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Password:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="password" placeholder="password *" ng-model="employee.regData.password" ng-pattern="/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d]).{8,20}$/" ng-minlength="8" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!regForm.password.$pristine && regForm.password.$error.required) || (regForm.$submitted && regForm.password.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.password.$pristine && regForm.password.$error.pattern) || (!regForm.password.$pristine && regForm.password.$error.minlength) || (!regForm.password.$pristine && regForm.password.$error.maxlength)" class="help-block">
+										<li><font color="red">Must contain at least one upper case letter</font></li>
+										<li><font color="red">Must contain at least one lower case letter</font></li>
+										<li><font color="red">Must contain at least one number</font></li>
+										<li><font color="red">must contain at least 8 characters  </font> </li>
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Mobile:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="mobile" placeholder="mobile *" ng-model="employee.regData.mobile" ng-pattern="/^[0-9]+$/" ng-minlength="10" ng-maxlength="10" required>
+									<p class="help-block" ng-show="(!regForm.mobile.$pristine && regForm.mobile.$error.required) || (regForm.$submitted && regForm.mobile.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.mobile.$pristine && regForm.mobile.$error.pattern) || (!regForm.mobile.$pristine && regForm.mobile.$error.minlength) || (!regForm.mobile.$pristine && regForm.mobile.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font></li>
+										<li><font color="red">must contain  10 characters only </font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Email:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="email" placeholder="E-mail *" ng-model="employee.regData.email" ng-minlength="3" ng-maxlength="40" ng-pattern="/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" ng-blur="employee.checkEmail(regData);" required>
+									<p class="help-block" ng-show="(!regForm.email.$pristine && regForm.email.$error.required) || (regForm.$submitted && regForm.email.$error.required)"><font color="red">This field is required</font></p>
+									<span ng-show="employee.checkingEmail && regForm.email.$valid" class="glyphicon glyphicon-repeat"></span>
+									<p class="help-block" ng-show="employee.emailMsg && !regForm.email.$error.required && regForm.email.$valid">{{ employee.emailMsg }}</p>
+									<ul ng-show="(!regForm.email.$pristine && regForm.email.$error.pattern) || (!regForm.email.$pristine && regForm.email.$error.minlength) || (!regForm.email.$pristine && regForm.email.$error.maxlength)" class="help-block">
+										<li><font color="red"> Must contain "@"</font></li>
+										<li><font color="red"> Must not contain any special characters</font></li>
+										<li><font color="red"> Must be at least 3 characters but no more than 25</font></li>
+									</ul>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">Date of Birth:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="dob" placeholder="Date of Birth *" ng-model="employee.regData.dateOfBirth" ng-minlength="3" ng-maxlength="40" ng-pattern="/^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/" required>
+									<p class="help-block" ng-show="(!regForm.dob.$pristine && regForm.dob.$error.required) || (regForm.$submitted && regForm.dob.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.dob.$pristine && regForm.dob.$error.pattern) || (!regForm.dob.$pristine && regForm.dob.$error.minlength) || (!regForm.mobile.$pristine && regForm.dob.$error.maxlength)" class="help-block">
+										<li><font color="red">date format must be dd/mm/yyyy</font></li>
+
+									</ul>
+
+							</div>
+
+							<label class="col-md-2 control-label">Salary:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="salary" placeholder="Salary *" ng-model="employee.regData.salary" ng-pattern="/^[0-9]+$/" ng-minlength="4" ng-maxlength="10" required>
+									<p class="help-block" ng-show="(!regForm.salary.$pristine && regForm.salary.$error.required) || (regForm.$submitted && regForm.salary.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.salary.$pristine && regForm.salary.$error.pattern) || (!regForm.salary.$pristine && regForm.salary.$error.minlength) || (!regForm.salary.$pristine && regForm.salary.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font> </li>
+										<li><font color="red">must contain at least 4 characters </font> </li>
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Date of Join:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="doj" placeholder="Date of Join *" ng-model="employee.regData.dateOfJoin" ng-minlength="3" ng-maxlength="40" ng-pattern="/^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/" required>
+									<p class="help-block" ng-show="(!regForm.doj.$pristine && regForm.doj.$error.required) || (regForm.$submitted && regForm.doj.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.doj.$pristine && regForm.doj.$error.pattern) || (!regForm.doj.$pristine && regForm.doj.$error.minlength) || (!regForm.mobile.$pristine && regForm.doj.$error.maxlength)" class="help-block">
+										<li><font color="red">date format must be dd/mm/yyyy</font></li>
+
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Designation:</label>
+							<div class="col-md-4">
+									<select name="designation" ng-disabled="employee.disabled" class="form-control" ng-model="employee.regData.designation" required>
+										<option>Java Developer</option>
+										<option>Mean Developer</option>
+										<option>InterShip</option>
+									</select>
+									<p class="help-block" ng-show="(!regForm.designation.$pristine && regForm.designation.$error.required) || (regForm.$submitted && regForm.designation.$error.required)"><font color="red">This field is required</font></p>
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">Bank Name:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="bankName" placeholder="Bank Name *" ng-model="employee.regData.bankName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!regForm.bankName.$pristine && regForm.bankName.$error.required) || (regForm.$submitted && regForm.bankName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.bankName.$pristine && regForm.bankName.$error.pattern) || (!regForm.bankName.$pristine && regForm.bankName.$error.minlength) || (!regForm.bankName.$pristine && regForm.bankName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Account Number:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="accountNumber" placeholder="Account Number*" ng-model="employee.regData.accountNumber" ng-pattern="/^[0-9]+$/" ng-minlength="8" ng-maxlength="16" required>
+									<p class="help-block" ng-show="(!regForm.accountNumber.$pristine && regForm.accountNumber.$error.required) || (regForm.$submitted && regForm.accountNumber.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.accountNumber.$pristine && regForm.accountNumber.$error.pattern) || (!regForm.accountNumber.$pristine && regForm.accountNumber.$error.minlength) || (!regForm.accountNumber.$pristine && regForm.accountNumber.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font> </li>
+										<li><font color="red">must contain at least 8 characters </font> </li>
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Account HolderName:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="accountHolderName" placeholder="Account HolderName *" ng-model="employee.regData.accountHolderName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!regForm.accountHolderName.$pristine && regForm.accountHolderName.$error.required) || (regForm.$submitted && regForm.accountHolderName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.accountHolderName.$pristine && regForm.accountHolderName.$error.pattern) || (!regForm.accountHolderName.$pristine && regForm.accountHolderName.$error.minlength) || (!regForm.accountHolderName.$pristine && regForm.accountHolderName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">IFSC Code:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="ifscCode" placeholder="IFSC Code*" ng-model="employee.regData.ifscCode" ng-pattern="/^[A-Za-z]{4}\d{7}$/" ng-minlength="11" ng-maxlength="11" required>
+									<p class="help-block" ng-show="(!regForm.ifscCode.$pristine && regForm.ifscCode.$error.required) || (regForm.$submitted && regForm.ifscCode.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.ifscCode.$pristine && regForm.ifscCode.$error.pattern) || (!regForm.ifscCode.$pristine && regForm.ifscCode.$error.minlength) || (!regForm.ifscCode.$pristine && regForm.ifscCode.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain  11 characters only.</font> </li>
+										<li><font color="red">first 4 must be alphabets others are numeric.</font> </li>
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Branch Name:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="branchName" placeholder="Bank Name *" ng-model="employee.regData.branchName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="5" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!regForm.branchName.$pristine && regForm.branchName.$error.required) || (regForm.$submitted && regForm.branchName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.branchName.$pristine && regForm.branchName.$error.pattern) || (!regForm.branchName.$pristine && regForm.branchName.$error.minlength) || (!regForm.branchName.$pristine && regForm.branchName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 5 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Address:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="employee.disabled" class="form-control" type="text" name="address" placeholder="Address *" ng-model="employee.regData.address" ng-pattern="/^[a-zA-Z0-9\s,.'-]*$/" ng-minlength="10" ng-maxlength="50" required>
+									<p class="help-block" ng-show="(!regForm.address.$pristine && regForm.address.$error.required) || (regForm.$submitted && regForm.address.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!regForm.address.$pristine && regForm.address.$error.pattern) || (!regForm.address.$pristine && regForm.address.$error.minlength) || (!regForm.address.$pristine && regForm.address.$error.maxlength)" class="help-block">
+										<li><font color="red">Must be at least 10 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<div class="model-footer">
+						<button type="button" class="btn default" data-dismiss="modal">Close</button>
+						<button type="submit" ng-disabled="employee.disabled"  class="btn blue" >Add</button>
+					</div>
+
+				</form>
+			</div>
+
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- END ADD FORM-->
+	<!-- BEGIN FILTER FORM -->
+
+</div><!-- ADD REMAINDTER FORM-->
+<div class="modal fade bs-modal-lg" id="viewform" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title" align="center">employee Full Details</h4>
+			</div>
+			<div class="modal-body" >
+				<form class="form-horizontal" name="myfrom" method="POST">
+					<div class="form-body">
+						<div class="form-group">
+
+							<label class="col-md-2 control-label">First Name :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.firstName}}</label>
+							</div>
+							<label class="col-md-2 control-label">Last Name :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.lastName}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Age :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.age}}</label>
+							</div>
+							<label class="col-md-2 control-label">Gender :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.gender}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">empId :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.empId}}</label>
+							</div>
+							<label class="col-md-2 control-label">Password :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">*********</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Mobile :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.mobile}}</label>
+							</div>
+							<label class="col-md-2 control-label">Email :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.email}}</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">DateOfBirth :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.dateOfBirth}}</label>
+							</div>
+							<label class="col-md-2 control-label">Salary :</label>
+
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.salary}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">DateOfJoin :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.dateOfJoin}}</label>
+							</div>
+							<label class="col-md-2 control-label">Designation :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.designation}}</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">BankName :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.bankName}}</label>
+							</div>
+							<label class="col-md-2 control-label">AccountNumber:</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.accountNumber}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Account HolderName :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.accountHolderName}}</label>
+							</div>
+							<label class="col-md-2 control-label">IFSC Code :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.ifscCode}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">BranchName :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.branchName}}</label>
+							</div>
+							<label class="col-md-2 control-label">Address :</label>
+							<div class="col-md-4">
+								<label class="col-md-2 control-label">{{view.address}}</label>
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<div class="model-footer">
+						<button type="button" class="btn default" data-dismiss="modal">Close</button>
+
+					</div>
+				</form>
+			</div>
+
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+</div>
+<div class="modal fade bs-modal-lg" id="updateform" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title" align="center">Edit a employee</h4>
+			</div>
+			<div class="modal-body" >
+				<form class="form-horizontal" name="updateform" ng-submit="updateEmployee(view, updateform.$valid, confirmed);"  novalidate>
+					<div class="form-body">
+						<div class="form-group">
+							<label class="col-md-2 control-label">FirstName:</label>
+							<!-- First Name Input -->
+							<div class="col-md-4">
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="firstName" placeholder="First Name *" ng-model="view.firstName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!updateform.firstName.$pristine && updateform.firstName.$error.required) || (updateform.$submitted && updateform.firstName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.firstName.$pristine && updateform.firstName.$error.pattern) || (!updateform.firstName.$pristine && updateform.firstName.$error.minlength) || (!updateform.firstName.$pristine && updateform.firstName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Last Name:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="lastName" placeholder="LastName *" ng-model="view.lastName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!updateform.lastName.$pristine && updateform.lastName.$error.required) || (updateform.$submitted && updateform.lastName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.lastName.$pristine && updateform.lastName.$error.pattern) || (!updateform.lastName.$pristine && updateform.lastName.$error.minlength) || (!updateform.lastName.$pristine && updateform.lastName.$error.maxlength)" class="help-block">
+										<li>Must not contain any special characters</li>
+										<li>Must not contain any numbers</li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Age:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="age" placeholder="Age *" ng-model="view.age" ng-pattern="/^[0-9]+$/" ng-minlength="2" ng-maxlength="3" required>
+									<p class="help-block" ng-show="(!updateform.age.$pristine && updateform.age.$error.required) || (updateform.$submitted && updateform.age.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.age.$pristine && updateform.age.$error.pattern) || (!updateform.age.$pristine && updateform.age.$error.minlength) || (!updateform.age.$pristine && updateform.age.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Gender:</label>
+							<div class="col-md-4">
+
+									<select  name="gender" ng-disabled="update.disabled" class="form-control" ng-model="view.gender" required>
+										<option>Male</option>
+										<option>Female</option>
+									</select>
+									<p class="help-block" ng-show="(!updateform.gender.$pristine && updateform.gender.$error.required) || (updateform.$submitted && updateform.gender.$error.required)"><font color="red">This field is required</font></p>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">empId:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="empId" placeholder="empId *" ng-model="view.empId" ng-pattern="/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d]).{8,8}$/" ng-minlength="8" ng-maxlength="8" required>
+									<p class="help-block" ng-show="(!updateform.empId.$pristine && updateform.empId.$error.required) || (updateform.$submitted && updateform.empId.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.empId.$pristine && updateform.empId.$error.pattern) || (!updateform.empId.$pristine && updateform.empId.$error.minlength) || (!updateform.empId.$pristine && updateform.empId.$error.maxlength)" class="help-block">
+										<li><font color="red">Must contain at least one upper case letter</font></li>
+										<li><font color="red">Must contain at least one lower case letter</font></li>
+										<li><font color="red">Must contain at least one number</font></li>
+										<li><font color="red">must contain 8 characters only </font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Password:</label>
+							<div class="col-md-4">
+								<input  class="form-control" type="text"  value="*********" disabled>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Mobile:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="mobile" placeholder="mobile *" ng-model="view.mobile" ng-pattern="/^[0-9]+$/" ng-minlength="10" ng-maxlength="10" required>
+									<p class="help-block" ng-show="(!updateform.mobile.$pristine && updateform.mobile.$error.required) || (updateform.$submitted && updateform.mobile.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.mobile.$pristine && updateform.mobile.$error.pattern) || (!updateform.mobile.$pristine && updateform.mobile.$error.minlength) || (!updateform.mobile.$pristine && updateform.mobile.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font></li>
+										<li><font color="red">must contain  10 characters only </font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Email:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="email" placeholder="E-mail *" ng-model="view.email" ng-minlength="3" ng-maxlength="40" ng-pattern="/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" ng-blur="update.checkEmail(updatedata);" required>
+									<p class="help-block" ng-show="(!updateform.email.$pristine && updateform.email.$error.required) || (updateform.$submitted && updateform.email.$error.required)"><font color="red">This field is required</font></p>
+									<span ng-show="update.checkingEmail && updateform.email.$valid" class="glyphicon glyphicon-repeat"></span>
+									<p class="help-block" ng-show="update.emailMsg && !updateform.email.$error.required && updateform.email.$valid">{{ update.emailMsg }}</p>
+									<ul ng-show="(!updateform.email.$pristine && updateform.email.$error.pattern) || (!updateform.email.$pristine && updateform.email.$error.minlength) || (!updateform.email.$pristine && updateform.email.$error.maxlength)" class="help-block">
+										<li><font color="red"> Must contain "@"</font></li>
+										<li><font color="red"> Must not contain any special characters</font></li>
+										<li><font color="red"> Must be at least 3 characters but no more than 25</font></li>
+									</ul>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">Date of Birth:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="dob" placeholder="Date of Birth *" ng-model="view.dateOfBirth" ng-minlength="3" ng-maxlength="40" ng-pattern="/^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/" required>
+									<p class="help-block" ng-show="(!updateform.dob.$pristine && updateform.dob.$error.required) || (updateform.$submitted && updateform.dob.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.dob.$pristine && updateform.dob.$error.pattern) || (!updateform.dob.$pristine && updateform.dob.$error.minlength) || (!updateform.mobile.$pristine && updateform.dob.$error.maxlength)" class="help-block">
+										<li><font color="red">date format must be dd/mm/yyyy</font></li>
+
+									</ul>
+
+							</div>
+
+							<label class="col-md-2 control-label">Salary:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="salary" placeholder="Salary *" ng-model="view.salary" ng-pattern="/^[0-9]+$/" ng-minlength="4" ng-maxlength="10" required>
+									<p class="help-block" ng-show="(!updateform.salary.$pristine && updateform.salary.$error.required) || (updateform.$submitted && updateform.salary.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.salary.$pristine && updateform.salary.$error.pattern) || (!updateform.salary.$pristine && updateform.salary.$error.minlength) || (!updateform.salary.$pristine && updateform.salary.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font> </li>
+										<li><font color="red">must contain at least 4 characters </font> </li>
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Date of Join:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="doj" placeholder="Date of Join *" ng-model="view.dateOfJoin" ng-minlength="3" ng-maxlength="40" ng-pattern="/^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/" required>
+									<p class="help-block" ng-show="(!updateform.doj.$pristine && updateform.doj.$error.required) || (updateform.$submitted && updateform.doj.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.doj.$pristine && updateform.doj.$error.pattern) || (!updateform.doj.$pristine && updateform.doj.$error.minlength) || (!updateform.mobile.$pristine && updateform.doj.$error.maxlength)" class="help-block">
+										<li><font color="red">date format must be dd/mm/yyyy</font></li>
+
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Designation:</label>
+							<div class="col-md-4">
+
+									<select name="designation" ng-disabled="update.disabled" class="form-control" ng-model="view.designation" required>
+										<option>Java Developer</option>
+										<option>Mean Developer</option>
+										<option>InterShip</option>
+									</select>
+									<p class="help-block" ng-show="(!updateform.designation.$pristine && updateform.designation.$error.required) || (updateform.$submitted && updateform.designation.$error.required)"><font color="red">This field is required</font></p>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">Bank Name:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="bankName" placeholder="Bank Name *" ng-model="view.bankName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!updateform.bankName.$pristine && updateform.bankName.$error.required) || (updateform.$submitted && updateform.bankName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.bankName.$pristine && updateform.bankName.$error.pattern) || (!updateform.bankName.$pristine && updateform.bankName.$error.minlength) || (!updateform.bankName.$pristine && updateform.bankName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Account Number:</label>
+							<div class="col-md-4">
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="accountNumber" placeholder="Account Number*" ng-model="view.accountNumber" ng-pattern="/^[0-9]+$/" ng-minlength="8" ng-maxlength="16" required>
+									<p class="help-block" ng-show="(!updateform.accountNumber.$pristine && updateform.accountNumber.$error.required) || (updateform.$submitted && updateform.accountNumber.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.accountNumber.$pristine && updateform.accountNumber.$error.pattern) || (!updateform.accountNumber.$pristine && updateform.accountNumber.$error.minlength) || (!updateform.accountNumber.$pristine && updateform.accountNumber.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain numeric characters only</font> </li>
+										<li><font color="red">must contain at least 8 characters </font> </li>
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Account HolderName:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="accountHolderName" placeholder="Account HolderName *" ng-model="view.accountHolderName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="3" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!updateform.accountHolderName.$pristine && updateform.accountHolderName.$error.required) || (updateform.$submitted && updateform.accountHolderName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.accountHolderName.$pristine && updateform.accountHolderName.$error.pattern) || (!updateform.accountHolderName.$pristine && updateform.accountHolderName.$error.minlength) || (!updateform.accountHolderName.$pristine && updateform.accountHolderName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 3 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">IFSC Code:</label>
+							<div class="col-md-4">
+
+
+									<input ng-disabled="update.disabled" class="form-control" type="text" name="ifscCode" placeholder="Ifsc Code *" ng-model="view.ifscCode" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="5" ng-maxlength="20" required>
+									<p class="help-block" ng-show="(!updateform.ifscCode.$pristine && updateform.ifscCode.$error.required) || (updateform.$submitted && updateform.ifscCode.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.ifscCode.$pristine && updateform.ifscCode.$error.pattern) || (!updateform.ifscCode.$pristine && updateform.ifscCode.$error.minlength) || (!updateform.ifscCode.$pristine && updateform.ifscCode.$error.maxlength)" class="help-block">
+										<li><font color="red">must contain  11 characters only.</font> </li>
+										<li><font color="red">first 4 must be alphabets others are numeric.</font> </li>
+									</ul>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Branch Name:</label>
+							<div class="col-md-4">
+								<input ng-disabled="update.disabled" class="form-control" type="text" name="branchName" placeholder="Bank Name *" ng-model="view.branchName" ng-pattern="/^[a-zA-Z]+$/" ng-minlength="5" ng-maxlength="20" required>
+
+									<!-- First Name Validation -->
+									<p class="help-block" ng-show="(!updateform.branchName.$pristine && updateform.branchName.$error.required) || (updateform.$submitted && updateform.branchName.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.branchName.$pristine && updateform.branchName.$error.pattern) || (!updateform.branchName.$pristine && updateform.branchName.$error.minlength) || (!updateform.branchName.$pristine && updateform.branchName.$error.maxlength)" class="help-block">
+										<li><font color="red">Must not contain any special characters</font></li>
+										<li><font color="red">Must not contain any numbers</font></li>
+										<li><font color="red">Must be at least 5 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+							<label class="col-md-2 control-label">Address:</label>
+							<div class="col-md-4">
+								<input ng-disabled="update.disabled" class="form-control" type="text" name="address" placeholder="Address *" ng-model="view.address" ng-pattern="/^[a-zA-Z0-9\s,'-]*$/" ng-minlength="10" ng-maxlength="50" required>
+
+									<!-- First Name Validation -->
+									<p class="help-block" ng-show="(!updateform.address.$pristine && updateform.address.$error.required) || (updateform.$submitted && updateform.address.$error.required)"><font color="red">This field is required</font></p>
+									<ul ng-show="(!updateform.address.$pristine && updateform.address.$error.pattern) || (!updateform.address.$pristine && updateform.address.$error.minlength) || (!updateform.address.$pristine && updateform.address.$error.maxlength)" class="help-block">
+										<li><font color="red">Must be at least 10 characters but no more than 20</font> </li>
+									</ul>
+
+							</div>
+						</div>
+
+						<div class="model-footer">
+							<button type="button" class="btn default" data-dismiss="modal">Close</button>
+							<button  type="submit" class="btn blue" >update</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- END ADD FORM-->
+	<!-- BEGIN FILTER FORM -->
+	<!-- BEGIN DELETER REMAINDTER FORM-->
+
+</div>
+
+

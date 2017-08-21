@@ -1,0 +1,40 @@
+{
+  "name": "ems",
+  "version": "1.0.0",
+  "description": "employee management system",
+  "main": "server.js",
+  "dependencies": {
+    "angular-page-loader": "^1.0.2",
+    "angular-toastr": "^2.1.1",
+    "bcrypt": "^1.0.2",
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.17.2",
+    "fs": "^0.0.1-security",
+    "html-pdf": "^2.1.0",
+    "jsonwebtoken": "^7.4.1",
+    "mongoose": "^4.11.0",
+    "mongoose-validator": "^1.3.2",
+    "morgan": "^1.8.2",
+    "node-cron": "^1.2.0",
+    "node-datetime": "^1.0.1",
+    "nodemailer": "^4.0.1",
+    "npm": "^5.0.4",
+    "path": "^0.12.7",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhiva04/RET.git"
+  },
+  "author": "Dhivakaran Ravi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dhiva04/RET/issues"
+  },
+  "homepage": "https://github.com/Dhiva04/RET#readme"
+}
